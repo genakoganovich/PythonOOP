@@ -6,12 +6,16 @@ class Book:
         self.available_copies = total_copies
 
     def borrow_book(self):
-        pass
-        print(f"Sorry, '{self.title}' is currently unavailable.")
+        if self.available_copies == 0:
+            print(f"Sorry, '{self.title}' is currently unavailable.")
+        else:
+            self.available_copies -= 1
 
     def return_book(self):
-        pass
-        print(f"Invalid operation. All copies of '{self.title}' have already been returned.")
+        if self.available_copies == self.total_copies:
+            print(f"Invalid operation. All copies of '{self.title}' have already been returned.")
+        else:
+            self.available_copies += 1
 
 
 class Author:
@@ -29,13 +33,15 @@ class Librarian:
         self.position = position
 
     def issue_book(self, book, member):
-        pass
-        print(f"Book '{book.title}' issued to {member}.")
-        pass
-        print(f"Sorry, '{book.title}' is currently unavailable for issuing.")
+        if book.available_copies > 0:
+            book.borrow_book()
+            print(f"Book '{book.title}' issued to {member}.")
+        else:
+            print(f"Sorry, '{book.title}' is currently unavailable for issuing.")
 
     def collect_book(self, book, member):
-        pass
-        print(f"Book '{book.title}' collected from {member}.")
-        pass
-        print(f"Invalid operation. All copies of '{book.title}' have already been returned.")
+        if book.available_copies < book.total_copies:
+            book.return_book()
+            print(f"Book '{book.title}' collected from {member}.")
+        else:
+            print(f"Invalid operation. All copies of '{book.title}' have already been returned.")
